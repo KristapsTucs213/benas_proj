@@ -152,33 +152,55 @@ async function scrapeNeste() {
         const { data } = await axios.get("https://www.neste.lv/lv/content/degvielas-cenas");
         const $ = cheerio.load(data);
 
-        // Initialize an object to store the prices
-        let prices = {};
+        let d_cena = "";
+        let supd_cena = "";
+        let devinipieci_cena = "";
+        let deviniastoni_cena = "";
 
-        // Loop through each table row
-        $("table tr").each((index, row) => {
-            // Get the name of the fuel and the price (the last column in each row)
+        // Select all table rows inside tbody
+        const rows = $("tbody tr");
+
+        // Function to clean the price (removes non-numeric characters)
+        const cleanPrice = (price) => {
+            return price.replace(/[^\d.,]+/g, "").trim();
+        };
+
+        rows.each((index, row) => {
             let name = $(row).find("td:first-child").text().trim();  // Fuel name (first column)
-            let price = $(row).find("td:nth-child(2)").text().trim();  // Fuel price (last column)
+            let priceTd = $(row).find("td:nth-child(2)"); // Fuel price (second column)
+            let price = priceTd.text().trim(); // Default price extraction
 
-            // Log the name and price for each row
-            console.log(`Fuel: ${name}, Price: ${price}`);
+            // Special case for devinipieci_cena (95) → second row, second column, inside <p>
+            if (index === 1) {
+                price = priceTd.find("p").text().trim();
+            }
 
-            // Store the price in the prices object if a match is found
-            if (name.includes("Neste Futura D")) prices.d_cena = price;
-            if (name.includes("Neste Pro Diesel")) prices.supd_cena = price;
-            if (name == "Neste Futura 95") prices.devinipieci_cena = price;
-            if (name.includes("Neste Futura 98")) prices.deviniastoni_cena = price;
+            // Clean the price
+            price = cleanPrice(price);
+
+            // Assign prices based on known names
+            if (name.includes("Neste Futura D")) {
+                d_cena = price;
+            } else if (name.includes("Neste Pro Diesel")) {
+                supd_cena = price;
+            } else if (index === 1) {  // Specifically second row for devinipieci_cena
+                devinipieci_cena = price;
+            } else if (name.includes("Neste Futura 98")) {
+                deviniastoni_cena = price;
+            }
         });
 
-        // Return the prices object
-        return prices;
+        console.log("Neste Prices:", { d_cena, supd_cena, devinipieci_cena, deviniastoni_cena });
+
+        return { d_cena, supd_cena, devinipieci_cena, deviniastoni_cena };
 
     } catch (error) {
         console.error("Error scraping Neste:", error.message);
         return null;
     }
 }
+
+
 
 // Function to update the database
 async function updateDatabase() {
@@ -235,6 +257,19 @@ app.get("/update-prices", async (req, res) => {
     await updateDatabase();
     res.json({ message: "Fuel prices updated successfully" });
 });
+
+// API to get fuel prices from database
+app.get("/uzpildes_stacijas", (req, res) => {
+    db.all("SELECT * FROM uzpildes_stacijas", [], (err, rows) => {
+        if (err) {
+            console.error("Error fetching stations:", err.message);
+            res.status(500).json({ error: "Database error" });
+        } else {
+            res.json(rows);
+        }
+    });
+});
+
 
 // Start the server
 app.listen(PORT, () => {
