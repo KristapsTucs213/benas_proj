@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import MainView from '../views/MainView.vue'
-import HistoryView from '../views/Graph.vue'
+import HistoryView from '../views/GraphView.vue'
 
 const routes = [
   {
@@ -8,7 +8,6 @@ const routes = [
     name: 'benzins',
     component: MainView
   },
-
   {
     path: '/cenasvesture',
     name: 'history',
