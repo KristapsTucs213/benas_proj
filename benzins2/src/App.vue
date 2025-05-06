@@ -1,8 +1,11 @@
 <template>
-  <!-- <nav>
+  <nav>
     <router-link to="/">Benzins</router-link> |
-  </nav> -->
-  <router-view/>
+  </nav>
+  <nav>
+    <router-link to="/cenasvesture">Graphs</router-link> |
+  </nav>
+   <router-view/>
 </template>
 
 <style>
