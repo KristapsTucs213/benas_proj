@@ -4,10 +4,10 @@
 
     <label for="fuelType" class="block mb-2 font-semibold">Izvēlies degvielas tipu:</label>
     <select v-model="selectedFuelType" @change="renderChart" id="fuelType" class="mb-4 p-2 border rounded">
-      <option value="devinipieci_cena">95</option>
-      <option value="deviniastoni_cena">98</option>
-      <option value="d_cena">Dīzīts</option>
-      <option value="supd_cena">Super Dīzīts</option>
+      <option value="95_cena">95</option>
+      <option value="98_cena">98</option>
+      <option value="d_cena">Dīzelis</option>
+      <option value="supd_cena">Super Dīzelis</option>
     </select>
 
     <div class="chart-box">
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       chart: null,
-      selectedFuelType: 'devinipieci_cena', 
+      selectedFuelType: '95_cena', // default = 95
     };
   },
   methods: {
@@ -54,7 +54,7 @@ export default {
                 return null;
               }
             }),
-            timestamps: filtered.map(entry => entry.timestamp),
+            timestamps: filtered.map(entry => entry.timestamps), // <-- MySQL column is `timestamps`
           };
         });
 
@@ -119,10 +119,10 @@ export default {
     },
     getChartTitle() {
       const map = {
-        devinipieci_cena: "95 degvielas cenu vēsture",
-        deviniastoni_cena: "98 degvielas cenu vēsture",
-        d_cena: "Dīzīša cenu vēsture",
-        supd_cena: "Super dīzīša cenu vēsture"
+        "95_cena": "95 degvielas cenu vēsture",
+        "98_cena": "98 degvielas cenu vēsture",
+        "d_cena": "Dīzeļa cenu vēsture",
+        "supd_cena": "Super Dīzeļa cenu vēsture"
       };
       return map[this.selectedFuelType] || "Degvielas cenu vēsture";
     },

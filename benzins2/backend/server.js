@@ -1,5 +1,5 @@
 const express = require("express");
-const sqlite3 = require("sqlite3").verbose();
+const mysql = require("mysql2/promise");
 const cors = require("cors");
 const axios = require("axios");
 const cheerio = require("cheerio");
@@ -11,76 +11,50 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to SQLite database
-const db = new sqlite3.Database("./database.sqlite", (err) => {
-    if (err) {
-        console.error("Error opening database", err.message);
-    } else {
-        console.log("Connected to SQLite database");
-    }
+// -----------------
+// MySQL connection
+// -----------------
+const pool = mysql.createPool({
+    host: "localhost",
+    user: "benzins",   // 👈 change
+    password: "Esilohs123", // 👈 change
+    database: "degviela",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
 });
 
-// Create current prices table
-db.run(`
-    CREATE TABLE IF NOT EXISTS uzpildes_stacijas (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        tanka_vards TEXT UNIQUE,
-        d_cena FLOAT,
-        supd_cena FLOAT,
-        devinipieci_cena FLOAT,
-        deviniastoni_cena FLOAT
-    );
-`);
-
-// Create historical prices table
-db.run(`
-    CREATE TABLE IF NOT EXISTS fuel_prices_history (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        tanka_vards TEXT,
-        d_cena FLOAT,
-        supd_cena FLOAT,
-        devinipieci_cena FLOAT,
-        deviniastoni_cena FLOAT,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-`, (err) => {
-    if (err) {
-        console.error("Failed to create fuel_prices_history table:", err.message);
-    } else {
-        console.log("fuel_prices_history table ensured.");
-    }
-});
-
-
+// -----------------
+// Scraping functions
+// -----------------
 async function scrapeViada() {
     try {
         const { data } = await axios.get("https://www.viada.lv/zemakas-degvielas-cenas/");
         const $ = cheerio.load(data);
 
-        let d_cena = "", supd_cena = "", devinipieci_cena = "", deviniastoni_cena = "";
+        let d_cena = "", supd_cena = "", cena95 = "", cena98 = "";
         const fuelImages = {
             d_cena: "petrol_d_new.png",
             supd_cena: "petrol_d_ecto_new.png",
-            devinipieci_cena: "petrol_95ecto_new.png",
-            deviniastoni_cena: "petrol_98_new.png"
+            cena95: "petrol_95ecto_new.png",
+            cena98: "petrol_98_new.png"
         };
 
         const cleanPrice = (price) => price.replace(/[^\d.,]+/g, "").trim();
 
         $("table tr").each((i, row) => {
             const imgSrc = $(row).find("td img").attr("src");
-            const priceTd = $(row).find("td:nth-child(2)");
-            let price = priceTd.text().trim();
+            let price = $(row).find("td:nth-child(2)").text().trim();
             if (!imgSrc) return;
             price = cleanPrice(price);
 
             if (imgSrc.includes(fuelImages.d_cena)) d_cena = price;
             else if (imgSrc.includes(fuelImages.supd_cena)) supd_cena = price;
-            else if (imgSrc.includes(fuelImages.devinipieci_cena)) devinipieci_cena = price;
-            else if (imgSrc.includes(fuelImages.deviniastoni_cena)) deviniastoni_cena = price;
+            else if (imgSrc.includes(fuelImages.cena95)) cena95 = price;
+            else if (imgSrc.includes(fuelImages.cena98)) cena98 = price;
         });
 
-        return { d_cena, supd_cena, devinipieci_cena, deviniastoni_cena };
+        return { d_cena, supd_cena, cena95, cena98 };
     } catch (error) {
         console.error("Error scraping Viada:", error.message);
         return null;
@@ -98,8 +72,8 @@ async function scrapeCircleK() {
             let result = {
                 d_cena: "N/A",
                 supd_cena: "N/A",
-                devinipieci_cena: "N/A",
-                deviniastoni_cena: "N/A"
+                cena95: "N/A",
+                cena98: "N/A"
             };
 
             const cleanPrice = (price) => price.replace(/[^\d.,]+/g, "").trim();
@@ -111,8 +85,8 @@ async function scrapeCircleK() {
 
                 if (name == "dmiles") result.d_cena = price;
                 if (name.includes("dmiles+")) result.supd_cena = price;
-                if (name.includes("95miles")) result.devinipieci_cena = price;
-                if (name.includes("98miles+")) result.deviniastoni_cena = price;
+                if (name.includes("95miles")) result.cena95 = price;
+                if (name.includes("98miles+")) result.cena98 = price;
             });
 
             return result;
@@ -131,106 +105,104 @@ async function scrapeNeste() {
         const { data } = await axios.get("https://www.neste.lv/lv/content/degvielas-cenas");
         const $ = cheerio.load(data);
 
-        let d_cena = "", supd_cena = "", devinipieci_cena = "", deviniastoni_cena = "";
+        let d_cena = "", supd_cena = "", cena95 = "", cena98 = "";
         const cleanPrice = (price) => price.replace(/[^\d.,]+/g, "").trim();
 
         $("tbody tr").each((index, row) => {
             let name = $(row).find("td:first-child").text().trim();
-            let priceTd = $(row).find("td:nth-child(2)");
-            let price = index === 1 ? priceTd.find("p").text().trim() : priceTd.text().trim();
+            let price = index === 1 ? $(row).find("td:nth-child(2) p").text().trim()
+                                   : $(row).find("td:nth-child(2)").text().trim();
             price = cleanPrice(price);
 
             if (name.includes("Neste Futura D")) d_cena = price;
             else if (name.includes("Neste Pro Diesel")) supd_cena = price;
-            else if (index === 1) devinipieci_cena = price;
-            else if (name.includes("Neste Futura 98")) deviniastoni_cena = price;
+            else if (index === 1) cena95 = price;
+            else if (name.includes("Neste Futura 98")) cena98 = price;
         });
 
-        return { d_cena, supd_cena, devinipieci_cena, deviniastoni_cena };
+        return { d_cena, supd_cena, cena95, cena98 };
     } catch (error) {
         console.error("Error scraping Neste:", error.message);
         return null;
     }
 }
 
+// -----------------
+// Update MySQL database
+// -----------------
 async function updateDatabase() {
     const viadaData = await scrapeViada();
     const circleKData = await scrapeCircleK();
     const nesteData = await scrapeNeste();
 
     const stations = [
-        { name: "Viada", data: viadaData },
-        { name: "Circle K", data: circleKData },
-        { name: "Neste", data: nesteData }
+        { id: 1, name: "Viada", data: viadaData },
+        { id: 2, name: "Circle K", data: circleKData },
+        { id: 3, name: "Neste", data: nesteData }
     ];
 
-    stations.forEach(station => {
-        if (station.data) {
-            const { d_cena, supd_cena, devinipieci_cena, deviniastoni_cena } = station.data;
-            if (!d_cena || !supd_cena || !devinipieci_cena || !deviniastoni_cena) {
-                console.log(`Skipping ${station.name} due to missing data.`);
-                return;
-            }
+    for (let station of stations) {
+        if (!station.data) continue;
+        const { d_cena, supd_cena, cena95, cena98 } = station.data;
 
-            // Update latest price table
-            db.run(
-                `INSERT INTO uzpildes_stacijas (tanka_vards, d_cena, supd_cena, devinipieci_cena, deviniastoni_cena)
-                 VALUES (?, ?, ?, ?, ?)
-                 ON CONFLICT(tanka_vards) DO UPDATE SET
-                    d_cena=excluded.d_cena,
-                    supd_cena=excluded.supd_cena,
-                    devinipieci_cena=excluded.devinipieci_cena,
-                    deviniastoni_cena=excluded.deviniastoni_cena`,
-                [station.name, d_cena, supd_cena, devinipieci_cena, deviniastoni_cena],
-                (err) => {
-                    if (err) console.error(`Error updating ${station.name}:`, err.message);
-                    else console.log(`${station.name} current prices updated.`);
-                }
-            );
-
-            // Insert into history table
-            db.run(
-                `INSERT INTO fuel_prices_history (tanka_vards, d_cena, supd_cena, devinipieci_cena, deviniastoni_cena)
-                 VALUES (?, ?, ?, ?, ?)`,
-                [station.name, d_cena, supd_cena, devinipieci_cena, deviniastoni_cena],
-                (err) => {
-                    if (err) console.error(`Error inserting history for ${station.name}:`, err.message);
-                    else console.log(`${station.name} history added.`);
-                }
-            );
+        if (!d_cena || !supd_cena || !cena95 || !cena98) {
+            console.log(`Skipping ${station.name} due to missing data.`);
+            continue;
         }
-    });
+
+        // Update or insert into uzpildes_stacijas
+        await pool.query(
+            `INSERT INTO uzpildes_stacijas (id, tanka_vards, d_cena, supd_cena, \`95_cena\`, \`98_cena\`)
+             VALUES (?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+                d_cena=VALUES(d_cena),
+                supd_cena=VALUES(supd_cena),
+                \`95_cena\`=VALUES(\`95_cena\`),
+                \`98_cena\`=VALUES(\`98_cena\`)`,
+            [station.id, station.name, d_cena, supd_cena, cena95, cena98]
+        );
+
+        // Insert into history table
+        await pool.query(
+            `INSERT INTO fuel_prices_history (id, uzpildes_stacijas_id, d_cena, supd_cena, \`95_cena\`, \`98_cena\`, timestamps)
+             VALUES (NULL, ?, ?, ?, ?, ?, NOW())`,
+            [station.id, d_cena, supd_cena, cena95, cena98]
+        );
+
+        console.log(`${station.name} updated.`);
+    }
 }
 
+// -----------------
 // Routes
+// -----------------
 app.get("/update-prices", async (req, res) => {
     await updateDatabase();
     res.json({ message: "Fuel prices updated successfully" });
 });
 
-app.get("/uzpildes_stacijas", (req, res) => {
-    db.all("SELECT * FROM uzpildes_stacijas", [], (err, rows) => {
-        if (err) {
-            console.error("Error fetching stations:", err.message);
-            res.status(500).json({ error: "Database error" });
-        } else {
-            res.json(rows);
-        }
-    });
+app.get("/uzpildes_stacijas", async (req, res) => {
+    try {
+        const [rows] = await pool.query("SELECT * FROM uzpildes_stacijas");
+        res.json(rows);
+    } catch (err) {
+        console.error("Error fetching stations:", err.message);
+        res.status(500).json({ error: "Database error" });
+    }
 });
 
-app.get("/fuel-history", (req, res) => {
-    db.all("SELECT * FROM fuel_prices_history ORDER BY timestamp ASC", [], (err, rows) => {
-        if (err) {
-            console.error("Error fetching history:", err.message);
-            res.status(500).json({ error: "Database error" });
-        } else {
-            res.json(rows);
-        }
-    });
+app.get("/fuel-history", async (req, res) => {
+    try {
+        const [rows] = await pool.query("SELECT * FROM fuel_prices_history ORDER BY timestamps ASC");
+        res.json(rows);
+    } catch (err) {
+        console.error("Error fetching history:", err.message);
+        res.status(500).json({ error: "Database error" });
+    }
 });
 
+// -----------------
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
-    updateDatabase(); // Run scrape once at start
+    updateDatabase(); // Run once at start
 });
