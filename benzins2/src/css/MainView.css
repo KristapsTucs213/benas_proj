@@ -1,0 +1,38 @@
+
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+}
+
+.title {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.stati-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  width: 50%;
+}
+
+.viada_stats,
+.circle_stats,
+.neste_stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px;
+}
+
+.viada, .circle, .neste {
+  font-size: 25px;
+  font-weight: bold;
+}
