@@ -15,6 +15,7 @@
   </template>
   
   <script>
+  import '@/css/GraphView.css' 
   import axios from "axios";
   import { Chart, registerables } from "chart.js";
   
@@ -138,12 +139,4 @@
   };
   </script>
   
-  <style scoped>
-  select {
-    font-size: 16px;
-  }
-  canvas {
-    margin: auto;
-  }
-  </style>
   

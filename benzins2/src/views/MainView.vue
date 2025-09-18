@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import '@/css/MainView.css'
 import axios from "axios";
 
 export default {
@@ -45,10 +46,8 @@ export default {
         const response = await axios.get("http://localhost:5000/uzpildes_stacijas");
         this.stations = response.data;
 
-        // Debugging log
         console.log("Fetched stations:", this.stations);
 
-        // Assign stations
         this.viadaStation = this.stations.find(s => s.tanka_vards.toLowerCase() === "viada") || {};
         this.circleStation = this.stations.find(s => s.tanka_vards.toLowerCase() === "circle k") || {};
         this.nesteStation = this.stations.find(s => s.tanka_vards.toLowerCase() === "neste") || {};
@@ -63,42 +62,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.about {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-}
 
-.title {
-  margin-top: 20px;
-  text-align: center;
-}
 
-.stati-box {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  width: 50%;
-}
-
-.viada_stats,
-.circle_stats,
-.neste_stats {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 5px;
-}
-
-.viada, .circle, .neste {
-  font-size: 25px;
-  font-weight: bold;
-}
-</style>
