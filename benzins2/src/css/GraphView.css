@@ -1,6 +1,60 @@
-select {
-    font-size: 16px;
-  }
-  canvas {
-    margin: auto;
-  }
+/* Full viewport container for GraphView */
+.graph-container {
+  min-height: 100vh;           
+  width: 100%;                 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  background-image: url('@/assets/forest_background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+  padding: 80px 20px 20px 20px; 
+  color: white;
+}
+
+/* Overlay for readability */
+.graph-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+/* Chart white container */
+.chart-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 90%;
+  max-width: 900px;
+}
+
+/* Select styling */
+.graph-container select {
+  font-size: 16px;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Canvas styling */
+.graph-container canvas {
+  margin: auto;
+  max-width: 100%;
+  display: block;
+}
