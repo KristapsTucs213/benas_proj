@@ -11,9 +11,7 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// -----------------
-// MySQL connection
-// -----------------
+
 const pool = mysql.createPool({
     host: "localhost",
     user: "benzins",   // 👈 change
@@ -24,9 +22,7 @@ const pool = mysql.createPool({
     queueLimit: 0,
 });
 
-// -----------------
-// Scraping functions
-// -----------------
+
 async function scrapeViada() {
     try {
         const { data } = await axios.get("https://www.viada.lv/zemakas-degvielas-cenas/");
@@ -127,9 +123,7 @@ async function scrapeNeste() {
     }
 }
 
-// -----------------
-// Update MySQL database
-// -----------------
+
 async function updateDatabase() {
     const viadaData = await scrapeViada();
     const circleKData = await scrapeCircleK();
@@ -173,9 +167,7 @@ async function updateDatabase() {
     }
 }
 
-// -----------------
-// Routes
-// -----------------
+
 app.get("/update-prices", async (req, res) => {
     await updateDatabase();
     res.json({ message: "Fuel prices updated successfully" });
