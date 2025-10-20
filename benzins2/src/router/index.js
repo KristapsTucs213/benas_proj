@@ -3,6 +3,7 @@ import MainView from '../views/MainView.vue'
 import HistoryView from '../views/GraphView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: RegisterView
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
   },
   // {
   //   path: '/about',

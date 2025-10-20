@@ -3,15 +3,13 @@
     <router-link to="/">Benzins</router-link> |
     <router-link to="/cenasvesture">Graphs</router-link> |
 
-    <!-- Show Register/Login only if user is NOT logged in -->
     <template v-if="!isLoggedIn">
       <router-link to="/register">Register</router-link> |
       <router-link to="/login">Login</router-link> |
     </template>
 
-    <!-- Show Logout button if user IS logged in -->
     <template v-else>
-      <span>Welcome!</span> |
+      <router-link to="/profile">Profile</router-link> |
       <a href="#" @click.prevent="logout">Logout</a> |
     </template>
   </nav>
@@ -28,16 +26,13 @@ export default {
     };
   },
   mounted() {
-    // Check localStorage on page load
-    this.isLoggedIn = !!localStorage.getItem("userId");
+    const user = localStorage.getItem("user");
+    this.isLoggedIn = !!user;
   },
   methods: {
     logout() {
-      // Remove user ID from localStorage
-      localStorage.removeItem("userId");
+      localStorage.removeItem("user");
       this.isLoggedIn = false;
-
-      // Refresh the page
       window.location.reload();
     },
   },
@@ -47,13 +42,18 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
 
-/* Navbar overlay */
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 nav {
   position: absolute;
   top: 0;
@@ -61,13 +61,14 @@ nav {
   width: 100%;
   padding: 20px;
   z-index: 10;
-  background: transparent;
+  background: orange;
 }
 
 nav a {
   font-weight: bold;
   color: #0a0a0a;
   text-decoration: none;
+  margin: 0 10px;
 }
 
 nav a.router-link-exact-active {

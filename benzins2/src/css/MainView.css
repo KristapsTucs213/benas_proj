@@ -1,4 +1,4 @@
-/* Reset html/body/app for full viewport */
+
 html, body, #app {
   margin: 0;
   padding: 0;
@@ -11,7 +11,7 @@ html, body, #app {
   color: #fff;
 }
 
-/* About view background */
+
 .about {
   min-height: 100vh;
   width: 100%;
@@ -20,17 +20,18 @@ html, body, #app {
   align-items: center;
   justify-content: flex-start;
 
+  /*
   background-image: url('@/assets/forest_background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  */
 
   color: black;
   position: relative;
   padding-top: 80px; /* space for navbar */
 }
 
-/* Optional overlay */
 .about::before {
   content: "";
   position: absolute;
