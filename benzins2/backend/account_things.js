@@ -130,7 +130,7 @@ app.post("/spending", async (req, res) => {
   }
 });
 
-// Update account info
+
 app.put("/account/:id", async (req, res) => {
   const { id } = req.params;
   const { first_name, last_name, email } = req.body;
@@ -140,7 +140,7 @@ app.put("/account/:id", async (req, res) => {
   }
 
   try {
-    // Check if email already exists for another user
+    
     const [existing] = await pool.query(
       "SELECT id FROM account WHERE email = ? AND id != ?",
       [email, id]
@@ -150,7 +150,7 @@ app.put("/account/:id", async (req, res) => {
       return res.status(409).json({ error: "Email already in use by another account." });
     }
 
-    // Update user info
+    
     await pool.query(
       "UPDATE account SET first_name = ?, last_name = ?, email = ? WHERE id = ?",
       [first_name, last_name, email, id]
