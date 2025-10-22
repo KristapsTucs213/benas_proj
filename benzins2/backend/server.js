@@ -14,13 +14,14 @@ app.use(express.json());
 
 const pool = mysql.createPool({
     host: "localhost",
-    user: "benzins",   // 👈 change
-    password: "Esilohs123", // 👈 change
+    user: "benzins",   
+    password: "Esilohs123", 
     database: "degviela",
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
 });
+
 
 
 async function scrapeViada() {
@@ -144,7 +145,7 @@ async function updateDatabase() {
             continue;
         }
 
-        // Update or insert into uzpildes_stacijas
+        
         await pool.query(
             `INSERT INTO uzpildes_stacijas (id, tanka_vards, d_cena, supd_cena, \`95_cena\`, \`98_cena\`)
              VALUES (?, ?, ?, ?, ?, ?)
@@ -156,7 +157,7 @@ async function updateDatabase() {
             [station.id, station.name, d_cena, supd_cena, cena95, cena98]
         );
 
-        // Insert into history table
+        
         await pool.query(
             `INSERT INTO fuel_prices_history (id, uzpildes_stacijas_id, d_cena, supd_cena, \`95_cena\`, \`98_cena\`, timestamps)
              VALUES (NULL, ?, ?, ?, ?, ?, NOW())`,
@@ -183,15 +184,29 @@ app.get("/uzpildes_stacijas", async (req, res) => {
     }
 });
 
-app.get("/fuel-history", async (req, res) => {
-    try {
-        const [rows] = await pool.query("SELECT * FROM fuel_prices_history ORDER BY timestamps ASC");
-        res.json(rows);
-    } catch (err) {
-        console.error("Error fetching history:", err.message);
-        res.status(500).json({ error: "Database error" });
-    }
+app.get("/fuel_prices_history/:station_name", async (req, res) => {
+  const { station_name } = req.params;
+  try {
+    const [station] = await pool.query(
+      "SELECT id FROM uzpildes_stacijas WHERE LOWER(tanka_vards) = ?",
+      [station_name.toLowerCase()]
+    );
+
+    if (!station.length) return res.json([]);
+
+    const stationId = station[0].id;
+    const [rows] = await pool.query(
+      "SELECT d_cena, supd_cena, `95_cena`, `98_cena`, timestamps FROM fuel_prices_history WHERE uzpildes_stacijas_id = ? ORDER BY timestamps ASC",
+      [stationId]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error("Error fetching fuel history:", err.message);
+    res.status(500).json({ error: "Database error" });
+  }
 });
+
 
 // -----------------
 app.listen(PORT, () => {
