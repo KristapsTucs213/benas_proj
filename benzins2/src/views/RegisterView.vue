@@ -1,40 +1,32 @@
 <template>
-  <div class="register-container">
-    <h1>Register</h1>
-    <form @submit.prevent="register">
-      <input
-        type="text"
-        v-model="first_name"
-        placeholder="First Name"
-        required
-      />
-      <input
-        type="text"
-        v-model="last_name"
-        placeholder="Last Name"
-        required
-      />
-      <input
-        type="email"
-        v-model="email"
-        placeholder="Email"
-        required
-        :class="{ 'input-error': emailError }"
-      />
-      <span v-if="emailError" class="error-message">{{ emailError }}</span>
+  <div class="app-background d-flex justify-content-center align-items-center py-5">
+    <div class="card shadow-lg border-0 p-5 text-center" style="max-width: 500px; width: 100%;">
+      <h2 class="fw-bold mb-4 text-dark">Create Account</h2>
 
-      <input
-        type="password"
-        v-model="password"
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Register</button>
-    </form>
-
-    <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+      <form @submit.prevent="register" class="text-start">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">First Name</label>
+          <input v-model="first_name" type="text" class="form-control form-control-lg" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Last Name</label>
+          <input v-model="last_name" type="text" class="form-control form-control-lg" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Email</label>
+          <input v-model="email" type="email" class="form-control form-control-lg" required />
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Password</label>
+          <input v-model="password" type="password" class="form-control form-control-lg" required />
+        </div>
+        <button class="btn btn-warning w-100 btn-lg fw-bold">Register</button>
+      </form>
+    </div>
   </div>
 </template>
+
+
 
 <script>
 import axios from "axios";

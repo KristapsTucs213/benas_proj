@@ -1,35 +1,62 @@
 <template>
-  <div class="about">
-    <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-      DEGVIELAS CENAS
-    </h1>
-    <div class="stati-box">
-      <div class="viada_stats" v-if="viadaStation">
-        <img src="@/assets/Viada_logo.jpg" alt="viada_photo" width="200" height="75">
-        <h2>D: €{{ viadaStation.d_cena || "N/A" }}</h2>
-        <h2>D Ecto: €{{ viadaStation.supd_cena || "N/A" }}</h2>
-        <h2>95: €{{ viadaStation['95_cena'] || "N/A" }}</h2>
-        <h2>98: €{{ viadaStation['98_cena'] || "N/A" }}</h2>
-      </div>
+  <div class="app-background py-5">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-5 text-dark">Degvielas Cenas</h1>
 
-      <div class="circle_stats" v-if="circleStation">
-        <img src="@/assets/Circle_K_logo_2015.svg.png" alt="circle_photo" width="200" height="75">
-        <h2>Dmiles: €{{ circleStation.d_cena || "N/A" }}</h2>
-        <h2>Dmiles+: €{{ circleStation.supd_cena || "N/A" }}</h2>
-        <h2>95Miles: €{{ circleStation['95_cena'] || "N/A" }}</h2>
-        <h2>98Miles+: €{{ circleStation['98_cena'] || "N/A" }}</h2>
-      </div>
+      <div class="row g-5 justify-content-center">
+        <!-- Viada -->
+        <div class="col-md-4">
+          <div class="card fuel-card shadow-lg border-0 p-4">
+            <img src="@/assets/Viada_logo.jpg" class="img-fluid mb-3" alt="Viada Logo" />
+            <h3 class="fw-bold text-success">Viada</h3>
+            <p class="fs-5 mb-1">D: €{{ viadaStation?.d_cena || "N/A" }}</p>
+            <p class="fs-5 mb-1">D Ecto: €{{ viadaStation?.supd_cena || "N/A" }}</p>
+            <p class="fs-5 mb-1">95: €{{ viadaStation?.['95_cena'] || "N/A" }}</p>
+            <p class="fs-5 mb-1">98: €{{ viadaStation?.['98_cena'] || "N/A" }}</p>
+          </div>
+        </div>
 
-      <div class="neste_stats" v-if="nesteStation">
-        <img src="@/assets/Neste_logo.png" alt="neste_photo" width="200" height="75">
-        <h2>Neste Futura D: €{{ nesteStation.d_cena || "N/A" }}</h2>
-        <h2>Neste Pro Diesel: €{{ nesteStation.supd_cena || "N/A" }}</h2>
-        <h2>Neste Futura 95: €{{ nesteStation['95_cena'] || "N/A" }}</h2>
-        <h2>Neste Futura 98: €{{ nesteStation['98_cena'] || "N/A" }}</h2>
+        <!-- Circle K -->
+        <div class="col-md-4">
+          <div class="card fuel-card shadow-lg border-0 p-4">
+            <img src="@/assets/Circle_K_logo_2015.svg.png" class="img-fluid mb-3" alt="Circle K" />
+            <h3 class="fw-bold text-success">Circle K</h3>
+            <p class="fs-5 mb-1">Dmiles: €{{ circleStation?.d_cena || "N/A" }}</p>
+            <p class="fs-5 mb-1">Dmiles+: €{{ circleStation?.supd_cena || "N/A" }}</p>
+            <p class="fs-5 mb-1">95Miles: €{{ circleStation?.['95_cena'] || "N/A" }}</p>
+            <p class="fs-5 mb-1">98Miles+: €{{ circleStation?.['98_cena'] || "N/A" }}</p>
+          </div>
+        </div>
+
+        <!-- Neste -->
+        <div class="col-md-4">
+          <div class="card fuel-card shadow-lg border-0 p-4">
+            <img src="@/assets/Neste_logo.png" class="img-fluid mb-3" alt="Neste" />
+            <h3 class="fw-bold text-success">Neste</h3>
+            <p class="fs-5 mb-1">Futura D: €{{ nesteStation?.d_cena || "N/A" }}</p>
+            <p class="fs-5 mb-1">Pro Diesel: €{{ nesteStation?.supd_cena || "N/A" }}</p>
+            <p class="fs-5 mb-1">Futura 95: €{{ nesteStation?.['95_cena'] || "N/A" }}</p>
+            <p class="fs-5 mb-1">Futura 98: €{{ nesteStation?.['98_cena'] || "N/A" }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.fuel-card {
+  background: white;
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.fuel-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+}
+</style>
+
+
 
 <script>
 import '@/css/MainView.css'

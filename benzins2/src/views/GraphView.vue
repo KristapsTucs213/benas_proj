@@ -1,15 +1,13 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-    <div class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-      <h1 class="text-xl font-bold text-center text-gray-800 mb-4">
-        Degvielas Cenu Vēsture
-      </h1>
-
-      <div class="flex justify-center mb-4">
-        <select
-          v-model="selectedFuelType"
-          @change="fetchData"
-          class="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+  <div class="container py-5">
+    <div class="card shadow border-0 p-4">
+      <h3 class="text-center mb-4 fw-bold">Degvielas Cenu Vēsture</h3>
+      <div class="mb-3 text-center">
+        <select 
+          v-model="selectedFuelType" 
+          @change="fetchData" 
+          class="form-select d-inline-block"
+          style="width: auto; padding-right: 1.8em;"
         >
           <option disabled value="">Izvēlies degvielas tipu</option>
           <option value="d_cena">D</option>
@@ -17,14 +15,12 @@
           <option value="95_cena">95</option>
           <option value="98_cena">98</option>
         </select>
-      </div>
-
-      <div class="flex justify-center">
-        <canvas ref="chartCanvas" class="rounded-lg border border-gray-300 bg-gray-50"></canvas>
-      </div>
+    </div>
+      <canvas ref="chartCanvas" class="w-100" height="300"></canvas>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";

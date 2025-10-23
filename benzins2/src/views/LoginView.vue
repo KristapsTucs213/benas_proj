@@ -1,12 +1,20 @@
 <template>
-  <div class="login-container">
-    <h1>Login</h1>
-    <form @submit.prevent="login">
-      <input v-model="email" type="text" placeholder="Email" required />
-      <input v-model="password" type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+  <div class="app-background d-flex justify-content-center align-items-center py-5">
+    <div class="card shadow-lg border-0 p-5 text-center" style="max-width: 500px; width: 100%;">
+      <h2 class="fw-bold mb-4 text-dark">Login</h2>
+
+      <form @submit.prevent="login" class="text-start">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Email</label>
+          <input v-model="email" type="email" class="form-control form-control-lg" placeholder="Enter your email" required />
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Password</label>
+          <input v-model="password" type="password" class="form-control form-control-lg" placeholder="Enter your password" required />
+        </div>
+        <button type="submit" class="btn btn-warning w-100 btn-lg fw-bold">Login</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -32,10 +40,8 @@ export default {
         });
 
         if (response.data.user) {
-          // Save user info to localStorage
           localStorage.setItem("user", JSON.stringify(response.data.user));
 
-          // Reload page to refresh state
           window.location.reload();
         }
       } catch (error) {
