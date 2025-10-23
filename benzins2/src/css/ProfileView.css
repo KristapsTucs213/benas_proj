@@ -1,84 +1,72 @@
-.profile-container {
-  max-width: 900px;
-  margin: 50px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+/* Background same as App.vue */
+.profile-background {
+  background: linear-gradient(135deg, #fff9e6 0%, #e8f9e9 50%, #fef5d7 100%);
+  min-height: 100vh;
+  padding: 50px 0;
+  background-attachment: fixed;
 }
 
+/* Cards */
+.card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  padding: 25px;
+  margin-bottom: 30px;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Typography */
 h1, h2, h3 {
   color: #333;
-  margin-bottom: 15px;
 }
 
-.actions {
-  margin-bottom: 20px;
+/* Buttons */
+.btn {
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
-.edit-section input {
-  display: block;
-  margin-bottom: 10px;
-  padding: 8px;
-  width: 100%;
+.btn:hover {
+  transform: scale(1.05);
 }
 
-.add-form {
-  margin-top: 30px;
-}
-
-.add-form input,
-.add-form select {
-  margin-right: 10px;
-  padding: 8px;
-  border-radius: 6px;
+/* Forms */
+.form-control, .form-select {
+  border-radius: 12px;
   border: 1px solid #ccc;
-}
-
-.add-form button {
-  background-color: #42b983;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 6px;
-}
-
-.table {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.table th, .table td {
   padding: 10px;
 }
 
-.h2 {
-    color: black;    
-}
-
-.infobinpo{
-    color: black;
-}
-
-.table-striped{
-    color: black;
-}
-
-.table-container {
-  display: flex;
-  justify-content: center; /* centers the table horizontally */
+/* Table */
+.spending-table-container {
+  overflow-x: auto;
   margin-top: 20px;
 }
 
 .spending-table {
-  border: 2px solid #333; /* adds border around the table */
-  border-collapse: collapse;
-  width: 80%; /* optional, adjust width */
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.spending-table th,
-.spending-table td {
-  border: 1px solid #333; /* adds border to cells */
-  padding: 10px;
-  text-align: center; /* centers content inside cells */
+.spending-table th, .spending-table td {
+  text-align: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.spending-table th {
+  background: #42b983;
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.spending-table tr:nth-child(even) {
+  background: #f9f9f9;
 }
