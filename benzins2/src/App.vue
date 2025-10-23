@@ -110,7 +110,7 @@ export default {
   display: block;
 }
 .custom-navbar {
-  background-color: #692d37; /* your custom color */
+  background-color: #943d4d; /* your custom color */
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
