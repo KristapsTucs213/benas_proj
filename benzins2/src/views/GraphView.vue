@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       selectedFuelType: "",
-      fuelData: {}, // store data by station name
+      fuelData: {},
       stations: ["viada", "circle k", "neste"],
       colors: {
         "viada": "#ff4b5c",

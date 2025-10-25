@@ -1,24 +1,24 @@
 <template>
   <div class="profile-background py-5">
     <div class="container">
-      <!-- Not logged in -->
+      
       <div v-if="!user" class="text-center">
         <h2 class="text-muted">Please log in to see your profile.</h2>
       </div>
 
-      <!-- Logged in -->
+      
       <div v-else>
-        <!-- Greeting -->
+        
         <div class="text-center mb-5">
           <h1 class="display-5 fw-bold text-dark">
-            Hello, {{ user.first_name }} {{ user.last_name }} 👋
+            Hello, {{ user.first_name }} {{ user.last_name }} 
           </h1>
           <button @click="editMode = !editMode" class="btn btn-primary btn-lg mt-3">
             {{ editMode ? "Cancel" : "Edit Account Info" }}
           </button>
         </div>
 
-        <!-- Edit Info -->
+        
         <div v-if="editMode" class="card edit-card">
           <h3>✏️ Edit Information</h3>
           <form @submit.prevent="updateInfo" class="d-flex flex-column gap-3">
@@ -29,9 +29,8 @@
           </form>
         </div>
 
-        <!-- Add Fuel Purchase -->
         <div class="card add-card">
-          <h3>⛽ Add Fuel Purchase</h3>
+          <h3> Add Fuel Purchase</h3>
           <form @submit.prevent="addSpending" class="d-flex flex-column gap-3">
             <select v-model="newSpending.uzpildes_stacijas_id" required class="form-select">
               <option disabled value="">Select Gas Station</option>
@@ -46,7 +45,7 @@
         </div>
 
         <!-- Fuel Spending History -->
-        <h2 class="fw-bold mb-3 text-center text-dark">Fuel Spending History 💸</h2>
+        <h2 class="fw-bold mb-3 text-center text-dark">Fuel Spending History</h2>
         <div class="table-responsive shadow-lg rounded spending-table-container">
           <table class="table spending-table">
             <thead>
