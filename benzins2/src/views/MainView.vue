@@ -4,7 +4,7 @@
       <h1 class="display-4 fw-bold mb-5 text-dark">Degvielas Cenas</h1>
 
       <div class="row g-5 justify-content-center">
-        <!-- Viada -->
+        
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
             <img src="@/assets/Viada_logo.jpg" class="img-fluid mb-3" alt="Viada Logo" />
@@ -16,7 +16,7 @@
           </div>
         </div>
 
-        <!-- Circle K -->
+        
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
             <img src="@/assets/Circle_K_logo_2015.svg.png" class="img-fluid mb-3" alt="Circle K" />
@@ -28,7 +28,7 @@
           </div>
         </div>
 
-        <!-- Neste -->
+        
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
             <img src="@/assets/Neste_logo.png" class="img-fluid mb-3" alt="Neste" />
