@@ -2,26 +2,40 @@
   <div>
     <!-- Clean Desktop Navbar -->
     <nav class="navbar custom-navbar shadow-sm py-3">
-
       <div class="container d-flex justify-content-between align-items-center">
         <!-- Brand -->
         <RouterLink to="/" class="navbar-brand fw-bold text-dark fs-4">
-          <img src="@/assets/loggo.png" alt="logo" class="foto">
+          <img src="@/assets/loggo.png" alt="logo" class="foto" />
         </RouterLink>
 
         <!-- Navigation Links -->
         <div class="d-flex align-items-center gap-4">
-          <RouterLink to="/" class="nav-link text-white fw-semibold">Degviela</RouterLink>
-          <RouterLink to="/cenasvesture" class="nav-link text-white fw-semibold">Graphs</RouterLink>
+          <RouterLink to="/" class="nav-link text-white fw-semibold"
+            >Degviela</RouterLink
+          >
+          <RouterLink to="/cenasvesture" class="nav-link text-white fw-semibold"
+            >Graphs</RouterLink
+          >
 
           <template v-if="!isLoggedIn">
-            <RouterLink to="/register" class="nav-link text-white fw-semibold">Register</RouterLink>
-            <RouterLink to="/login" class="nav-link text-white fw-semibold">Login</RouterLink>
+            <RouterLink to="/register" class="nav-link text-white fw-semibold"
+              >Register</RouterLink
+            >
+            <RouterLink to="/login" class="nav-link text-white fw-semibold"
+              >Login</RouterLink
+            >
           </template>
 
           <template v-else>
-            <RouterLink to="/profile" class="nav-link text-white fw-semibold">Profile</RouterLink>
-            <a href="#" @click.prevent="logout" class="nav-link text-white fw-semibold">Logout</a>
+            <RouterLink to="/profile" class="nav-link text-white fw-semibold"
+              >Profile</RouterLink
+            >
+            <a
+              href="#"
+              @click.prevent="logout"
+              class="nav-link text-white fw-semibold"
+              >Logout</a
+            >
           </template>
         </div>
       </div>
@@ -33,8 +47,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script>
 export default {
@@ -66,7 +78,7 @@ export default {
 }
 .navbar {
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-  padding-top: 0.5rem;   /* reduce padding */
+  padding-top: 0.5rem; /* reduce padding */
   padding-bottom: 0.5rem; /* reduce padding */
 }
 
@@ -106,13 +118,11 @@ export default {
 
 .foto {
   max-height: 65px; /* max height to fit inside navbar */
-  width: auto;      /* maintain aspect ratio */
+  width: auto; /* maintain aspect ratio */
   display: block;
 }
 .custom-navbar {
   background-color: #943d4d; /* your custom color */
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
-
-
 </style>
