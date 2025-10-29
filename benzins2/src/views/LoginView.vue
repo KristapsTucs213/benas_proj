@@ -1,19 +1,42 @@
 <template>
-  <div class="app-background d-flex justify-content-center align-items-center py-5">
-    <div class="card shadow-lg border-0 p-5 text-center" style="max-width: 500px; width: 100%;">
+  <div
+    class="app-background d-flex justify-content-center align-items-center py-5"
+  >
+    <div
+      class="card shadow-lg border-0 p-5 text-center"
+      style="max-width: 500px; width: 100%"
+    >
       <h2 class="fw-bold mb-4 text-dark">Login</h2>
 
       <form @submit.prevent="login" class="text-start">
         <div class="mb-3">
           <label class="form-label fw-semibold">Email</label>
-          <input v-model="email" type="email" class="form-control form-control-lg" placeholder="Enter your email" required />
+          <input
+            v-model="email"
+            type="email"
+            class="form-control form-control-lg"
+            placeholder="Enter your email"
+            required
+          />
         </div>
         <div class="mb-4">
           <label class="form-label fw-semibold">Password</label>
-          <input v-model="password" type="password" class="form-control form-control-lg" placeholder="Enter your password" required />
+          <input
+            v-model="password"
+            type="password"
+            class="form-control form-control-lg"
+            placeholder="Enter your password"
+            required
+          />
         </div>
-        <button type="submit" class="btn btn-warning w-100 btn-lg fw-bold">Login</button>
+        <button type="submit" class="btn btn-warning w-100 btn-lg fw-bold">
+          Login
+        </button>
       </form>
+
+      <p v-if="errorMessage" class="text-danger mt-3 text-center">
+        {{ errorMessage }}
+      </p>
     </div>
   </div>
 </template>
@@ -21,6 +44,7 @@
 <script>
 import axios from "axios";
 import "@/css/LoginView.css";
+import { userStore } from "@/store/userStore";
 
 export default {
   name: "LoginView",
@@ -40,9 +64,9 @@ export default {
         });
 
         if (response.data.user) {
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+          userStore.setUser(response.data.user);
 
-          window.location.reload();
+          this.$router.push("/");
         }
       } catch (error) {
         this.errorMessage =
@@ -52,4 +76,3 @@ export default {
   },
 };
 </script>
-

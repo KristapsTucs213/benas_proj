@@ -1,32 +1,63 @@
 <template>
-  <div class="app-background d-flex justify-content-center align-items-center py-5">
-    <div class="card shadow-lg border-0 p-5 text-center" style="max-width: 500px; width: 100%;">
+  <div
+    class="app-background d-flex justify-content-center align-items-center py-5"
+  >
+    <div
+      class="card shadow-lg border-0 p-5 text-center"
+      style="max-width: 500px; width: 100%"
+    >
       <h2 class="fw-bold mb-4 text-dark">Create Account</h2>
 
       <form @submit.prevent="register" class="text-start">
         <div class="mb-3">
           <label class="form-label fw-semibold">First Name</label>
-          <input v-model="first_name" type="text" class="form-control form-control-lg" required />
+          <input
+            v-model="first_name"
+            type="text"
+            class="form-control form-control-lg"
+            required
+          />
         </div>
         <div class="mb-3">
           <label class="form-label fw-semibold">Last Name</label>
-          <input v-model="last_name" type="text" class="form-control form-control-lg" required />
+          <input
+            v-model="last_name"
+            type="text"
+            class="form-control form-control-lg"
+            required
+          />
         </div>
         <div class="mb-3">
           <label class="form-label fw-semibold">Email</label>
-          <input v-model="email" type="email" class="form-control form-control-lg" required />
+          <input
+            v-model="email"
+            type="email"
+            class="form-control form-control-lg"
+            required
+          />
         </div>
         <div class="mb-4">
           <label class="form-label fw-semibold">Password</label>
-          <input v-model="password" type="password" class="form-control form-control-lg" required />
+          <input
+            v-model="password"
+            type="password"
+            class="form-control form-control-lg"
+            required
+          />
         </div>
+
         <button class="btn btn-warning w-100 btn-lg fw-bold">Register</button>
       </form>
+
+      <div v-if="successMessage" class="text-success mt-3 fw-semibold">
+        {{ successMessage }}
+      </div>
+      <div v-if="emailError" class="text-danger mt-3 fw-semibold">
+        {{ emailError }}
+      </div>
     </div>
   </div>
 </template>
-
-
 
 <script>
 import axios from "axios";

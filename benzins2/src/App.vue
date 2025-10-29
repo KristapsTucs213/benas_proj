@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Clean Desktop Navbar -->
+    <!-- Navbar -->
     <nav class="navbar custom-navbar shadow-sm py-3">
       <div class="container d-flex justify-content-between align-items-center">
         <!-- Brand -->
@@ -41,33 +41,25 @@
       </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Page Content -->
     <div class="app-background">
       <router-view />
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "App",
-  data() {
-    return {
-      isLoggedIn: false,
-    };
-  },
-  mounted() {
-    const user = localStorage.getItem("user");
-    this.isLoggedIn = !!user;
-  },
-  methods: {
-    logout() {
-      localStorage.removeItem("user");
-      this.isLoggedIn = false;
-      window.location.reload();
-    },
-  },
-};
+<script setup>
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { userStore } from "@/store/userStore";
+
+const router = useRouter();
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+
+function logout() {
+  userStore.setUser(null);
+  router.push("/login");
+}
 </script>
 
 <style scoped>
@@ -76,10 +68,11 @@ export default {
   min-height: 100vh;
   background-attachment: fixed;
 }
+
 .navbar {
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-  padding-top: 0.5rem; /* reduce padding */
-  padding-bottom: 0.5rem; /* reduce padding */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .nav-link {
@@ -108,21 +101,18 @@ export default {
 
 .navbar-brand {
   display: flex;
-  align-items: center; /* vertically center logo and text */
+  align-items: center;
   gap: 0.5rem;
-}
-.card:hover {
-  transform: scale(1.02);
-  transition: 0.2s ease-in-out;
 }
 
 .foto {
-  max-height: 65px; /* max height to fit inside navbar */
-  width: auto; /* maintain aspect ratio */
+  max-height: 65px;
+  width: auto;
   display: block;
 }
+
 .custom-navbar {
-  background-color: #943d4d; /* your custom color */
+  background-color: #943d4d;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 </style>
