@@ -3,11 +3,11 @@
     <div class="card shadow border-0 p-4">
       <h3 class="text-center mb-4 fw-bold">Degvielas Cenu Vēsture</h3>
       <div class="mb-3 text-center">
-        <select 
-          v-model="selectedFuelType" 
-          @change="fetchData" 
+        <select
+          v-model="selectedFuelType"
+          @change="fetchData"
           class="form-select d-inline-block"
-          style="width: auto; padding-right: 1.8em;"
+          style="width: auto; padding-right: 1.8em"
         >
           <option disabled value="">Izvēlies degvielas tipu</option>
           <option value="d_cena">D</option>
@@ -15,12 +15,11 @@
           <option value="95_cena">95</option>
           <option value="98_cena">98</option>
         </select>
-    </div>
+      </div>
       <canvas ref="chartCanvas" class="w-100" height="300"></canvas>
     </div>
   </div>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -33,9 +32,9 @@ export default {
       fuelData: {},
       stations: ["viada", "circle k", "neste"],
       colors: {
-        "viada": "#ff4b5c",
+        viada: "#ff4b5c",
         "circle k": "#4285f4",
-        "neste": "#34a853",
+        neste: "#34a853",
       },
     };
   },
@@ -48,7 +47,9 @@ export default {
 
         for (const name of this.stations) {
           const response = await axios.get(
-            `http://localhost:5000/fuel_prices_history/${encodeURIComponent(name)}`
+            `http://localhost:5000/fuel_prices_history/${encodeURIComponent(
+              name
+            )}`
           );
           allData[name] = response.data;
         }
@@ -63,14 +64,18 @@ export default {
     drawChart() {
       const canvas = this.$refs.chartCanvas;
       const ctx = canvas.getContext("2d");
-      const width = (canvas.width = 600);
+      const width = (canvas.width = 1240);
       const height = (canvas.height = 350);
       ctx.clearRect(0, 0, width, height);
 
       if (!this.selectedFuelType) {
         ctx.font = "16px Arial";
         ctx.fillStyle = "#666";
-        ctx.fillText("Izvēlies degvielas tipu, lai skatītu datus", 140, height / 2);
+        ctx.fillText(
+          "Izvēlies degvielas tipu, lai skatītu datus",
+          140,
+          height / 2
+        );
         return;
       }
 
