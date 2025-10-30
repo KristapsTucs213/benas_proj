@@ -8,7 +8,6 @@
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
             <img src="@/assets/Viada_logo.jpg" class="img-fluid mb-3" alt="Viada Logo" />
-            <h3 class="fw-bold text-success">Viada</h3>
             <p class="fs-5 mb-1">D: €{{ viadaStation?.d_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">D Ecto: €{{ viadaStation?.supd_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">95: €{{ viadaStation?.['95_cena'] || "N/A" }}</p>
@@ -20,7 +19,6 @@
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
             <img src="@/assets/Circle_K_logo_2015.svg.png" class="img-fluid mb-3" alt="Circle K" />
-            <h3 class="fw-bold text-success">Circle K</h3>
             <p class="fs-5 mb-1">Dmiles: €{{ circleStation?.d_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">Dmiles+: €{{ circleStation?.supd_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">95Miles: €{{ circleStation?.['95_cena'] || "N/A" }}</p>
@@ -32,7 +30,6 @@
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
             <img src="@/assets/Neste_logo.png" class="img-fluid mb-3" alt="Neste" />
-            <h3 class="fw-bold text-success">Neste</h3>
             <p class="fs-5 mb-1">Futura D: €{{ nesteStation?.d_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">Pro Diesel: €{{ nesteStation?.supd_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">Futura 95: €{{ nesteStation?.['95_cena'] || "N/A" }}</p>

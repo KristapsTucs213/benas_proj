@@ -164,6 +164,79 @@ app.put("/account/:id", async (req, res) => {
 });
 
 
+
+app.get("/top-station/:account_id", async (req, res) => {
+  const { account_id } = req.params;
+
+  try {
+    const [rows] = await pool.query(
+      `SELECT u.tanka_vards, COUNT(*) AS visit_count
+       FROM spending_history s
+       JOIN uzpildes_stacijas u ON s.uzpildes_stacijas_id = u.id
+       WHERE s.account_id = ?
+       GROUP BY s.uzpildes_stacijas_id
+       ORDER BY visit_count DESC
+       LIMIT 1`,
+      [account_id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(200).json({
+        hasHistory: false,
+        message: "Lietotājam nav degvielas uzpildes vēstures.",
+      });
+    }
+
+    res.status(200).json({
+      hasHistory: true,
+      station: rows[0].tanka_vards,
+    });
+  } catch (err) {
+    console.error("Error fetching top station:", err.message);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+app.get("/monthly-stats/:account_id", async (req, res) => {
+  const { account_id } = req.params;
+
+  try {
+    const [rows] = await pool.query(
+      `SELECT 
+         SUM(liters) AS total_liters, 
+         SUM(total_spent) AS total_spent,
+         COUNT(DISTINCT WEEK(created_at, 1)) AS weeks_count
+       FROM spending_history
+       WHERE account_id = ?
+         AND MONTH(created_at) = MONTH(CURDATE())
+         AND YEAR(created_at) = YEAR(CURDATE())`,
+      [account_id]
+    );
+
+    const data = rows[0];
+
+    if (!data || data.weeks_count === 0) {
+      return res.json({
+        hasData: false,
+        message: "Nav datu šajā mēnesī",
+      });
+    }
+
+    const avgLiters = data.total_liters / data.weeks_count;
+    const avgSpent = data.total_spent / data.weeks_count;
+
+    res.json({
+      hasData: true,
+      avgLiters: parseFloat(avgLiters.toFixed(2)),
+      avgSpent: parseFloat(avgSpent.toFixed(2)),
+    });
+  } catch (err) {
+    console.error("Error fetching monthly stats:", err.message);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

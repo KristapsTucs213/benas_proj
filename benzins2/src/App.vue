@@ -1,14 +1,14 @@
 <template>
   <div>
-    <!-- Navbar -->
+    
     <nav class="navbar custom-navbar shadow-sm py-3">
       <div class="container d-flex justify-content-between align-items-center">
-        <!-- Brand -->
+        
         <RouterLink to="/" class="navbar-brand fw-bold text-dark fs-4">
           <img src="@/assets/loggo.png" alt="logo" class="foto" />
         </RouterLink>
 
-        <!-- Navigation Links -->
+        
         <div class="d-flex align-items-center gap-4">
           <RouterLink to="/" class="nav-link text-white fw-semibold"
             >Degviela</RouterLink
@@ -27,9 +27,8 @@
           </template>
 
           <template v-else>
-            <RouterLink to="/profile" class="nav-link text-white fw-semibold"
-              >Profile</RouterLink
-            >
+            <RouterLink to="/stati" class="nav-link text-white fw-semibold">Stati</RouterLink>
+            <RouterLink to="/profile" class="nav-link text-white fw-semibold">Profile</RouterLink>
             <a
               href="#"
               @click.prevent="logout"
@@ -41,7 +40,6 @@
       </div>
     </nav>
 
-    <!-- Page Content -->
     <div class="app-background">
       <router-view />
     </div>

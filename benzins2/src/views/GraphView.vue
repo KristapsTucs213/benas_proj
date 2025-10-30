@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import "@/css/GraphView.css";
 import axios from "axios";
 
 export default {
