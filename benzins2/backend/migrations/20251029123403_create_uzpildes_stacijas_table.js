@@ -10,6 +10,10 @@ exports.up = function(knex) {
     table.decimal('supd_cena', 5, 2).notNullable();
     table.decimal('95_cena', 5, 2).notNullable();
     table.decimal('98_cena', 5, 2).notNullable();
+    table.string('d_desc', 500).nullable();
+    table.string('supd_desc', 500).nullable();
+    table.string('95_desc', 500).nullable();
+    table.string('98_desc', 500).nullable();
   });
 };
 

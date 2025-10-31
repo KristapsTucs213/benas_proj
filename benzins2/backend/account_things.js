@@ -1,7 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
-const bcrypt = require("bcrypt"); // 👈 add bcrypt
+const bcrypt = require("bcrypt");
 
 const app = express();
 const PORT = 5001;

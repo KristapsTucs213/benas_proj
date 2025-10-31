@@ -7,7 +7,9 @@
         
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
-            <img src="@/assets/Viada_logo.jpg" class="img-fluid mb-3" alt="Viada Logo" />
+            <router-link v-if="viadaStation?.id" :to="`/stacija/${viadaStation.id}`">
+              <img src="@/assets/Viada_logo.jpg" class="img-fluid mb-3" alt="Viada Logo" />
+            </router-link>
             <p class="fs-5 mb-1">D: €{{ viadaStation?.d_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">D Ecto: €{{ viadaStation?.supd_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">95: €{{ viadaStation?.['95_cena'] || "N/A" }}</p>
@@ -18,7 +20,9 @@
         
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
-            <img src="@/assets/Circle_K_logo_2015.svg.png" class="img-fluid mb-3" alt="Circle K" />
+            <router-link v-if="circleStation?.id" :to="`/stacija/${circleStation.id}`">
+              <img src="@/assets/Circle_K_logo_2015.svg.png" class="img-fluid mb-3" alt="Circle K" />
+            </router-link>
             <p class="fs-5 mb-1">Dmiles: €{{ circleStation?.d_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">Dmiles+: €{{ circleStation?.supd_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">95Miles: €{{ circleStation?.['95_cena'] || "N/A" }}</p>
@@ -29,7 +33,9 @@
         
         <div class="col-md-4">
           <div class="card fuel-card shadow-lg border-0 p-4">
-            <img src="@/assets/Neste_logo.png" class="img-fluid mb-3" alt="Neste" />
+            <router-link v-if="nesteStation?.id" :to="`/stacija/${nesteStation.id}`">
+              <img src="@/assets/Neste_logo.png" class="img-fluid mb-3" alt="Neste" />
+            </router-link>
             <p class="fs-5 mb-1">Futura D: €{{ nesteStation?.d_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">Pro Diesel: €{{ nesteStation?.supd_cena || "N/A" }}</p>
             <p class="fs-5 mb-1">Futura 95: €{{ nesteStation?.['95_cena'] || "N/A" }}</p>

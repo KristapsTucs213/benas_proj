@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import StatiView from '@/views/StatiView.vue'
+import StacijasView from '@/views/StacijasView.vue'
 
 
 const routes = [
@@ -37,6 +38,12 @@ const routes = [
     path: '/stati',
     name: 'stati',
     component: StatiView
+  },
+  {
+    path: '/stacija/:id',
+    name: 'stacija',
+    component: StacijasView,
+    props: true,
   },
   // {
   //   path: '/about',
