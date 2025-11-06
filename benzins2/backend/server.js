@@ -287,7 +287,12 @@ app.get("/fuel_prices_history/:station_name", async (req, res) => {
 });
 
 
-app.listen(PORT, () => {
+if (require.main === module) {
+  app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     updateDatabase();
-});
+  });
+}
+
+module.exports = { app, pool };
+
