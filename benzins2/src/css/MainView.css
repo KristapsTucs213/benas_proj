@@ -19,17 +19,9 @@ html, body, #app {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
-  /*
-  background-image: url('@/assets/forest_background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  */
-
   color: black;
   position: relative;
-  padding-top: 80px; /* space for navbar */
+  padding-top: 80px;
 }
 
 .about::before {

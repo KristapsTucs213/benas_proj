@@ -10,8 +10,9 @@
 
       <form @submit.prevent="register" class="text-start">
         <div class="mb-3">
-          <label class="form-label fw-semibold">First Name</label>
+          <label for="nameeee" class="form-label fw-semibold">First Name</label>
           <input
+            id="nameeee"
             v-model="first_name"
             type="text"
             class="form-control form-control-lg"
@@ -19,8 +20,9 @@
           />
         </div>
         <div class="mb-3">
-          <label class="form-label fw-semibold">Last Name</label>
+          <label for="lnameeee" class="form-label fw-semibold">Last Name</label>
           <input
+            id="lnameeee"
             v-model="last_name"
             type="text"
             class="form-control form-control-lg"
@@ -28,8 +30,9 @@
           />
         </div>
         <div class="mb-3">
-          <label class="form-label fw-semibold">Email</label>
+          <label for="emaillll" class="form-label fw-semibold">Email</label>
           <input
+            id="emaillll"
             v-model="email"
             type="email"
             class="form-control form-control-lg"
@@ -37,8 +40,9 @@
           />
         </div>
         <div class="mb-4">
-          <label class="form-label fw-semibold">Password</label>
+          <label for="passss" class="form-label fw-semibold">Password</label>
           <input
+            id="passss"
             v-model="password"
             type="password"
             class="form-control form-control-lg"

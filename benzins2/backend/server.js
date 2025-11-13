@@ -37,7 +37,7 @@ async function scrapeViada() {
             if (!imgSrc) return;
 
             let price = $(row).find("td:nth-child(2)").text().trim();
-            price = price.replace(/[^\d.,]+/g, "").trim();
+            price = price.replaceAll(/[^\d.,]+/g, "").trim();
 
             const desc = $(row)
                 .find("td:nth-child(3) span.dus-name")
@@ -84,7 +84,7 @@ async function scrapeCircleK() {
     const result = await page.evaluate(() => {
       const rows = document.querySelectorAll("table tbody tr");
 
-      const cleanPrice = (price) => price.replace(/[^\d.,]+/g, "").trim();
+      const cleanPrice = (price) => price.replaceAll(/[^\d.,]+/g, "").trim();
 
       const data = {
         d_cena: "N/A",
@@ -144,7 +144,7 @@ async function scrapeNeste() {
     let d_cena = "", supd_cena = "", cena95 = "", cena98 = "";
     let d_description = "", supd_description = "", description95 = "", description98 = "";
 
-    const cleanPrice = (price) => price.replace(/[^\d.,]+/g, "").trim();
+    const cleanPrice = (price) => price.replaceAll(/[^\d.,]+/g, "").trim();
 
     $("tbody tr").each((index, row) => {
       const name = $(row).find("td:first-child").text().trim();

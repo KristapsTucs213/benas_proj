@@ -212,8 +212,8 @@ app.get("/monthly-stats/:account_id", async (req, res) => {
 
     res.json({
       hasData: true,
-      avgLiters: parseFloat(avgLiters.toFixed(2)),
-      avgSpent: parseFloat(avgSpent.toFixed(2)),
+      avgLiters: Number.parseFloat(avgLiters.toFixed(2)),
+      avgSpent: Number.parseFloat(avgSpent.toFixed(2)),
     });
   } catch (err) {
     console.error("Error fetching monthly stats:", err.message);

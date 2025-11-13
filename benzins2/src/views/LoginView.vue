@@ -10,8 +10,9 @@
 
       <form @submit.prevent="login" class="text-start">
         <div class="mb-3">
-          <label class="form-label fw-semibold">Email</label>
+          <label for="emailllll" class="form-label fw-semibold">Email</label>
           <input
+            id="emailllll"
             v-model="email"
             type="email"
             class="form-control form-control-lg"
@@ -20,8 +21,9 @@
           />
         </div>
         <div class="mb-4">
-          <label class="form-label fw-semibold">Password</label>
+          <label for="passss" class="form-label fw-semibold">Password</label>
           <input
+            id="passss"
             v-model="password"
             type="password"
             class="form-control form-control-lg"
