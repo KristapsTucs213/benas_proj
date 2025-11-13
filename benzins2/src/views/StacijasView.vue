@@ -20,10 +20,13 @@
 
         <div class="col-md-6">
           <h1 class="fw-bold text-dark mb-3">{{ station.tanka_vards }}</h1>
->
+          >
           <div class="mb-4">
-            <label class="form-label fw-semibold">Select Fuel Type:</label>
+            <label for="choose" class="form-label fw-semibold"
+              >Select Fuel Type:</label
+            >
             <select
+              id="choose"
               v-model="selectedFuel"
               class="form-select shadow-sm"
             >
@@ -35,17 +38,20 @@
             </select>
           </div>
 
-          <div v-if="selectedFuel" class="price-display shadow-sm p-3 rounded mb-4">
-            <h4 class="fw-bold text-success mb-1">
-              Cena:
-            </h4>
+          <div
+            v-if="selectedFuel"
+            class="price-display shadow-sm p-3 rounded mb-4"
+          >
+            <h4 class="fw-bold text-success mb-1">Cena:</h4>
             <p class="fs-2 fw-bold text-dark">
               €{{ station[selectedFuel] || "N/A" }}
             </p>
           </div>
 
           <div class="station-info-text shadow-sm p-3 rounded">
-            <h5 class="fw-semibold text-primary">Kur informācija ir aktuāla🤓☝️:</h5>
+            <h5 class="fw-semibold text-primary">
+              Kur informācija ir aktuāla🤓☝️:
+            </h5>
             <p class="fs-5 text-muted">
               {{ fuelDescription }}
             </p>
@@ -67,8 +73,7 @@ export default {
       station: null,
       loading: true,
       selectedFuel: "",
-      defaultDescription:
-        "yurr. ",
+      defaultDescription: "yurr. ",
     };
   },
   computed: {
@@ -76,12 +81,10 @@ export default {
       if (!this.station) return null;
       const name = this.station.tanka_vards.toLowerCase();
       try {
-        if (name.includes("viada"))
-          return require("@/assets/Viada_logo.jpg");
+        if (name.includes("viada")) return require("@/assets/Viada_logo.jpg");
         if (name.includes("circle"))
           return require("@/assets/Circle_K_logo_2015.svg.png");
-        if (name.includes("neste"))
-          return require("@/assets/Neste_logo.png");
+        if (name.includes("neste")) return require("@/assets/Neste_logo.png");
         return require("@/assets/default_station.jpg");
       } catch {
         return require("@/assets/default_station.jpg");
@@ -120,4 +123,3 @@ export default {
   },
 };
 </script>
-
